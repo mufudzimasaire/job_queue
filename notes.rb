@@ -22,8 +22,17 @@ c = Array.new
 b.map { |element| element.length.eql?(1) ? c << element.split : c << element.split(/ /) }
 => [["a"], ["b", "c"], ["c", "f"], ["d", "a"], ["e", "b"], ["f"]]
 
+# Identify circular dependencies at this point
+#raise ArgumentError.new("Jobs can’t have circular dependencies.")
+
 # ordering dependencies
-d = Array.new
+jobs = Array.new
 temp = []
-c.map { |element| element.count > 1 ? d << (temp[0], temp[1] = element[1], element[0]) : d << element }
+c.map { |element| element.count > 1 ? jobs << (temp[0], temp[1] = element[1], element[0]) : jobs << element }
 => [["a"], ["c", "b"], ["f", "c"], ["a", "d"], ["b", "e"], ["f"]]
+
+
+
+#ORDER JOBS
+#jobs = [["a"], ["c", "b"], ["f", "c"], ["a", "d"], ["e"], ["b", "f"]]
+# expected result = ["f", "c", "b", "e", "a", "d"]
