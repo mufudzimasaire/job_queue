@@ -34,5 +34,27 @@ c.map { |element| element.count > 1 ? jobs << (temp[0], temp[1] = element[1], el
 
 
 #ORDER JOBS
-#jobs = [["a"], ["c", "b"], ["f", "c"], ["a", "d"], ["e"], ["b", "f"]]
-# expected result = ["f", "c", "b", "e", "a", "d"]
+#jobs = [["a"], ["c", "b"], ["f", "c"], ["a", "d"], ["b", "e"], ["f"]]
+#expected result = f before c, c before b, b before e and a before d
+
+ordered_jobs = []
+jobs.map do |job|
+	if ordered_jobs.empty? || (ordered_jobs & job).empty?
+		ordered_jobs << job
+	end
+	unless (ordered_jobs & job).empty?
+		ordered_jobs.flatten!
+		similar_job = ordered_jobs & job
+		position = ordered_jobs.index(similar_job.join).to_i
+		ordered_jobs[position] = job
+	end
+	ordered_jobs.flatten!
+end
+
+=> ["a", "d", "f", "c", "b", "e"]
+# matches expected result
+
+
+
+
+
