@@ -33,18 +33,18 @@ end
 => [["a"], ["b", "c"], ["c", "f"], ["d", "a"], ["e", "b"], ["f"]]
 
 
+
+
+#ORDER JOBS
 # ordering dependencies
 jobs = Array.new
 temp = []
 d.map { |element| element.count > 1 ? jobs << (temp[0], temp[1] = element[1], element[0]) : jobs << element }
 => [["a"], ["c", "b"], ["f", "c"], ["a", "d"], ["b", "e"], ["f"]]
 
-
-
-#ORDER JOBS
+#TESTING JOBS WITH NONE CIRCULAR DEPENDENCIES
 #jobs = [["a"], ["c", "b"], ["f", "c"], ["a", "d"], ["b", "e"], ["f"]]
 #expected result = f before c, c before b, b before e and a before d
-
 ordered_jobs = []
 jobs.map do |job|
 	# Indentify similar jobs
@@ -65,7 +65,6 @@ end
 
 => ["a", "d", "f", "c", "b", "e"]
 # Matches expected result
-
 
 
 # TESTING JOBS WITH CIRCULAR DEPENDENCIES USING ABOVE CODE
