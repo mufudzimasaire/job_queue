@@ -22,10 +22,21 @@ c = Array.new
 b.map { |element| element.length.eql?(1) ? c << element.split : c << element.split(/ /) }
 => [["a"], ["b", "c"], ["c", "f"], ["d", "a"], ["e", "b"], ["f"]]
 
+# Catch self-dependent jobs eg. c => c
+d = Array.new
+c.each do |element|
+	if element.count.eql?(2)
+		raise ArgumentError.new("Jobs can’t have circular dependencies.") if element[0] == element[1]
+	end
+	d << element
+end
+=> [["a"], ["b", "c"], ["c", "f"], ["d", "a"], ["e", "b"], ["f"]]
+
+
 # ordering dependencies
 jobs = Array.new
 temp = []
-c.map { |element| element.count > 1 ? jobs << (temp[0], temp[1] = element[1], element[0]) : jobs << element }
+d.map { |element| element.count > 1 ? jobs << (temp[0], temp[1] = element[1], element[0]) : jobs << element }
 => [["a"], ["c", "b"], ["f", "c"], ["a", "d"], ["b", "e"], ["f"]]
 
 
