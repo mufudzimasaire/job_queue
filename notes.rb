@@ -36,27 +36,31 @@ c.map { |element| element.count > 1 ? jobs << (temp[0], temp[1] = element[1], el
 
 ordered_jobs = []
 jobs.map do |job|
-	if ordered_jobs.empty? || ( ordered_jobs & job ).empty?
-		#Compare 2 arrays for matches
+	# Indentify similar jobs
+	similar_job = ordered_jobs & job
+	if ordered_jobs.empty? || similar_job.empty?
 		ordered_jobs << job
-		ordered_jobs.flatten!
 	else
-		similar_job = ordered_jobs & job
-		# Identify circular dependency
-		# if similar_job is greater than 1,
-		# this indicates circular dependency
-		if similar_job.count.eql?(1)
-			position = ordered_jobs.index(similar_job.join).to_i
-			ordered_jobs[position] = job
-			ordered_jobs.flatten!
-		else
+		unless similar_job.count.eql?(1)
+			# if similar_job is greater than 1,
+			# this indicates circular dependency
 			raise ArgumentError.new("Jobs can’t have circular dependencies.")
 		end
+		position = ordered_jobs.index(similar_job.join).to_i
+		ordered_jobs[position] = job
 	end
-	ordered_jobs
+	ordered_jobs.flatten!
 end
 
 => ["a", "d", "f", "c", "b", "e"]
+# Matches expected result
+
+
+
+# TESTING JOBS WITH CIRCULAR DEPENDENCIES USING ABOVE CODE
+#jobs = [["a"], ["c", "b"], ["f", "c"], ["a", "d"], ["e"], ["b", "f"]]
+#expected result = "Jobs can’t have circular dependencies."
+=> ArgumentError: Jobs cant have circular dependencies.
 # Matches expected result
 
 
