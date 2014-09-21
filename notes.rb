@@ -1,4 +1,5 @@
 =begin
+	Author: Mufudzi Masaire
 	Investigating the problem using irb.
 	This approach generally enables me to get my head around /or better understand the nature of the problem.
 	As a result I am able to come up with possible ideas on how to best solve the problem.
@@ -22,6 +23,11 @@ c = Array.new
 b.map { |element| element.length.eql?(1) ? c << element.split : c << element.split(/ /) }
 => [["a"], ["b", "c"], ["c", "f"], ["d", "a"], ["e", "b"], ["f"]]
 
+
+
+
+#ORDER JOBS
+
 # Catch self-dependent jobs eg. c => c
 d = Array.new
 c.each do |element|
@@ -32,10 +38,6 @@ c.each do |element|
 end
 => [["a"], ["b", "c"], ["c", "f"], ["d", "a"], ["e", "b"], ["f"]]
 
-
-
-
-#ORDER JOBS
 # ordering dependencies
 jobs = Array.new
 temp = []
