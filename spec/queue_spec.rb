@@ -9,7 +9,7 @@ describe Job::Queue do
 
 	let(:queue) { Job::Queue.new('Test Job Que') }
 
-	describe 'name' do
+	describe '.name' do
 		context "Getting a queue name" do
 			it 'returns the queue name' do
 				name = queue.name
@@ -25,7 +25,7 @@ describe Job::Queue do
 		end
 	end
 
-	describe 'process' do
+	describe '.process' do
 		context 'valid job string' do
 			it 'returns a string when passed a single job' do
 				jobs = "a =>"
