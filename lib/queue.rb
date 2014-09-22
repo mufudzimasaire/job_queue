@@ -20,7 +20,7 @@ module Job
 			# a job as a string if its a single job
 			Job::ExceptionHandler.call("blank") if jobs.empty?
 			parsed_jobs = Job::Parser.process(jobs)
-			@ordered_job_queue = Job::Order.process(parsed_jobs)
+			@ordered_job_queue ||= Job::Order.process(parsed_jobs)
 			@ordered_job_queue.count > 1 ? @ordered_job_queue : @ordered_job_queue.join
 		end
 
